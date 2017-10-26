@@ -13,23 +13,28 @@ export default class Docket extends Component {
   }
 
   handleClick() {
-    console.log(this.state.input);
+    this.state.items.unshift(this.state.input);
+    this.setState({ items: this.state.items, input: "" });
   }
 
-  add() {
-    console.log("Came hererererere");
-    console.log(this.item);
-    console.log("gone");
-  }
   render() {
     return (
       <div>
-        <input type="text" onChange={this.handleChange.bind(this)} />
+        <input
+          type="text"
+          value={this.state.input}
+          onChange={this.handleChange.bind(this)}
+        />
         <input
           type="button"
           value="Alert the text input"
           onClick={this.handleClick.bind(this)}
         />
+        <ul>
+          {this.state.items.map(function(item, i) {
+            return <li key={i}>{item}</li>;
+          })}
+        </ul>
       </div>
     );
   }
