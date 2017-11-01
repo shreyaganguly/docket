@@ -13,11 +13,27 @@ export default class Docket extends Component {
   }
 
   handleClick() {
-    this.state.items.unshift(this.state.input);
+    this.state.items.unshift({
+      task: this.state.input,
+      decoration: { textDecoration: "none" },
+      checked: false
+    });
     this.setState({ items: this.state.items, input: "" });
+  }
+  handleCheck(index, self, a) {
+    item = self.state.items[index];
+    if (item.checked === false) {
+      item.checked = true;
+      item.decoration = { textDecoration: "line-through" };
+    } else {
+      item.checked = false;
+      item.decoration = { textDecoration: "none" };
+    }
+    self.setState({ items: self.state.items });
   }
 
   render() {
+    let that = this;
     return (
       <div>
         <input
@@ -27,12 +43,24 @@ export default class Docket extends Component {
         />
         <input
           type="button"
-          value="Alert the text input"
+          value="Add your tasks"
           onClick={this.handleClick.bind(this)}
         />
         <ul>
           {this.state.items.map(function(item, i) {
-            return <li key={i}>{item}</li>;
+            return (
+              <div style={item.decoration}>
+                <input
+                  key={i}
+                  name="checkbox"
+                  checked={item.checked}
+                  onChange={that.handleCheck.bind(this, i, that)}
+                  type="checkbox"
+                  id="checkbox"
+                />
+                {item.task}
+              </div>
+            );
           })}
         </ul>
       </div>
