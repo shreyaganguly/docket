@@ -1,5 +1,8 @@
 import React, { Component } from "react";
 import Checkbox from "material-ui/Checkbox";
+import RaisedButton from "material-ui/RaisedButton";
+import TextField from "material-ui/TextField";
+
 import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
 
 export default class Docket extends Component {
@@ -7,11 +10,17 @@ export default class Docket extends Component {
     super(props);
     this.state = {
       items: [],
-      input: ""
+      input: "",
+      disabled: true
     };
   }
   handleChange(e) {
     this.setState({ input: e.target.value });
+    if (e.target.value.length > 0) {
+      this.setState({ disabled: false });
+    } else {
+      this.setState({ disabled: true });
+    }
   }
 
   handleClick() {
@@ -20,10 +29,9 @@ export default class Docket extends Component {
       decoration: { textDecoration: "none" },
       checked: false
     });
-    this.setState({ items: this.state.items, input: "" });
+    this.setState({ items: this.state.items, input: "", disabled: true });
   }
   handleCheck(index, self, a) {
-    console.log("Came here");
     var item = self.state.items[index];
     if (item.checked === false) {
       item.checked = true;
@@ -38,34 +46,36 @@ export default class Docket extends Component {
   render() {
     let that = this;
     return (
-      <div>
-        <input
-          type="text"
+      <MuiThemeProvider>
+        <TextField
           value={this.state.input}
+          style={{ margin: 10 }}
           onChange={this.handleChange.bind(this)}
         />
-        <input
-          type="button"
-          value="Add your tasks"
+        <RaisedButton
+          backgroundColor="#1e93f1"
+          label="Add your tasks"
+          labelColor="#fff"
+          disabled={this.state.disabled}
+          disabledBackgroundColor="#a4a4a4"
           onClick={this.handleClick.bind(this)}
         />
-        <MuiThemeProvider>
-          <ul>
-            {this.state.items.map(function(item, i) {
-              return (
-                <div key={i}>
-                  <Checkbox
-                    label={item.task}
-                    labelStyle={item.decoration}
-                    checked={item.checked}
-                    onCheck={that.handleCheck.bind(this, i, that)}
-                  />
-                </div>
-              );
-            })}
-          </ul>
-        </MuiThemeProvider>
-      </div>
+
+        <ul>
+          {this.state.items.map(function(item, i) {
+            return (
+              <div key={i}>
+                <Checkbox
+                  label={item.task}
+                  labelStyle={item.decoration}
+                  checked={item.checked}
+                  onCheck={that.handleCheck.bind(this, i, that)}
+                />
+              </div>
+            );
+          })}
+        </ul>
+      </MuiThemeProvider>
     );
   }
 }
