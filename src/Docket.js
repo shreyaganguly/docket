@@ -1,4 +1,6 @@
 import React, { Component } from "react";
+import Checkbox from "material-ui/Checkbox";
+import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
 
 export default class Docket extends Component {
   constructor(props) {
@@ -21,7 +23,8 @@ export default class Docket extends Component {
     this.setState({ items: this.state.items, input: "" });
   }
   handleCheck(index, self, a) {
-    item = self.state.items[index];
+    console.log("Came here");
+    var item = self.state.items[index];
     if (item.checked === false) {
       item.checked = true;
       item.decoration = { textDecoration: "line-through" };
@@ -46,23 +49,22 @@ export default class Docket extends Component {
           value="Add your tasks"
           onClick={this.handleClick.bind(this)}
         />
-        <ul>
-          {this.state.items.map(function(item, i) {
-            return (
-              <div style={item.decoration}>
-                <input
-                  key={i}
-                  name="checkbox"
-                  checked={item.checked}
-                  onChange={that.handleCheck.bind(this, i, that)}
-                  type="checkbox"
-                  id="checkbox"
-                />
-                {item.task}
-              </div>
-            );
-          })}
-        </ul>
+        <MuiThemeProvider>
+          <ul>
+            {this.state.items.map(function(item, i) {
+              return (
+                <div key={i}>
+                  <Checkbox
+                    label={item.task}
+                    labelStyle={item.decoration}
+                    checked={item.checked}
+                    onCheck={that.handleCheck.bind(this, i, that)}
+                  />
+                </div>
+              );
+            })}
+          </ul>
+        </MuiThemeProvider>
       </div>
     );
   }
