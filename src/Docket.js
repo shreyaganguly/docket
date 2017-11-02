@@ -47,34 +47,37 @@ export default class Docket extends Component {
     let that = this;
     return (
       <MuiThemeProvider>
-        <TextField
-          value={this.state.input}
-          style={{ margin: 10 }}
-          onChange={this.handleChange.bind(this)}
-        />
-        <RaisedButton
-          backgroundColor="#1e93f1"
-          label="Add your tasks"
-          labelColor="#fff"
-          disabled={this.state.disabled}
-          disabledBackgroundColor="#a4a4a4"
-          onClick={this.handleClick.bind(this)}
-        />
+        <div>
+          <TextField
+            id="tasks"
+            value={this.state.input}
+            style={{ margin: 10 }}
+            onChange={this.handleChange.bind(this)}
+          />
+          <RaisedButton
+            backgroundColor="#1e93f1"
+            label="Add your tasks"
+            labelColor="#fff"
+            disabled={this.state.disabled}
+            disabledBackgroundColor="#a4a4a4"
+            onClick={this.handleClick.bind(this)}
+          />
 
-        <ul>
-          {this.state.items.map(function(item, i) {
-            return (
-              <div key={i}>
-                <Checkbox
-                  label={item.task}
-                  labelStyle={item.decoration}
-                  checked={item.checked}
-                  onCheck={that.handleCheck.bind(this, i, that)}
-                />
-              </div>
-            );
-          })}
-        </ul>
+          <ul>
+            {this.state.items.map(function(item, i) {
+              return (
+                <div key={i}>
+                  <Checkbox
+                    label={item.task}
+                    labelStyle={item.decoration}
+                    checked={item.checked}
+                    onCheck={that.handleCheck.bind(this, i, that)}
+                  />
+                </div>
+              );
+            })}
+          </ul>
+        </div>
       </MuiThemeProvider>
     );
   }
