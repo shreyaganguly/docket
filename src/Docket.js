@@ -2,7 +2,8 @@ import React, { Component } from "react";
 import Checkbox from "material-ui/Checkbox";
 import RaisedButton from "material-ui/RaisedButton";
 import TextField from "material-ui/TextField";
-
+import ContentAdd from "material-ui/svg-icons/content/add";
+import FloatingActionButton from "material-ui/FloatingActionButton";
 import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
 
 export default class Docket extends Component {
@@ -31,6 +32,7 @@ export default class Docket extends Component {
     });
     this.setState({ items: this.state.items, input: "", disabled: true });
   }
+  handleAdd() {}
   handleCheck(index, self, a) {
     var item = self.state.items[index];
     if (item.checked === false) {
@@ -48,15 +50,26 @@ export default class Docket extends Component {
     return (
       <MuiThemeProvider>
         <div>
+          <FloatingActionButton
+            style={{
+              position: "absolute",
+              top: 10,
+              left: 20
+            }}
+            onClick={this.handleAdd.bind(this)}
+          >
+            <ContentAdd />
+          </FloatingActionButton>
           <TextField
             id="tasks"
             value={this.state.input}
             style={{ margin: 10 }}
+            floatingLabelText="Enter your task"
             onChange={this.handleChange.bind(this)}
           />
           <RaisedButton
             backgroundColor="#1e93f1"
-            label="Add your tasks"
+            label="Add this"
             labelColor="#fff"
             disabled={this.state.disabled}
             disabledBackgroundColor="#a4a4a4"
