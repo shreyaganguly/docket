@@ -39,7 +39,8 @@ export default class Docket extends Component {
       checked: false
     });
     self.state.cards[index].input = "";
-    self.setState({ cards: self.state.cards, disabled: true });
+    self.state.cards[index].disabled = true;
+    self.setState({ cards: self.state.cards });
   }
 
   handleAdd() {
