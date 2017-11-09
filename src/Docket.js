@@ -1,13 +1,13 @@
 import React, { Component } from "react";
 import ContentAdd from "material-ui/svg-icons/content/add";
 import FloatingActionButton from "material-ui/FloatingActionButton";
+import TextField from "material-ui/TextField";
 import FlatButton from "material-ui/FlatButton";
 import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
 import {
   Card,
   CardActions,
   CardHeader,
-  CardMedia,
   CardTitle,
   CardText
 } from "material-ui/Card";
@@ -30,9 +30,10 @@ export default class Docket extends Component {
     this.state.cards.unshift({
       disabled: true,
       input: "",
-      items: []
+      items: [],
+      title: "Add Your Title"
     });
-    this.setState({ cards: this.state.cards, input: "", disabled: true });
+    this.setState({ cards: this.state.cards });
   }
 
   handleDelete(index, self, a) {
@@ -60,11 +61,24 @@ export default class Docket extends Component {
               <ul>
                 {card !== undefined && (
                   <Card>
-                    <CardHeader
-                      title={`Docket #${i + 1}`}
-                      subtitle="Your Tasks"
-                    />
-                    <CardTitle title="Card title" subtitle="Card subtitle" />
+                    <CardHeader title={`Docket #${i + 1}`} />
+                    <CardTitle>
+                      <TextField
+                        id="tasks"
+                        style={{ margin: 10 }}
+                        floatingLabelText="Task Title"
+                        defaultValue={card.title}
+                        floatingLabelFixed={true}
+                        floatingLabelStyle={{
+                          fontWeight: "bold",
+                          color: "black",
+                          fontSize: 20
+                        }}
+                        inputStyle={{
+                          color: "#7d42f4"
+                        }}
+                      />
+                    </CardTitle>
                     <CardText>
                       <Item
                         cardIndex={i}

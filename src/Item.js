@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import Checkbox from "material-ui/Checkbox";
-import RaisedButton from "material-ui/RaisedButton";
 import TextField from "material-ui/TextField";
 
 export default class Item extends Component {
@@ -12,7 +11,6 @@ export default class Item extends Component {
   }
 
   handleChange(index, self, e) {
-    console.log(self.state.cards);
     self.state.cards[index].input = e.target.value;
     if (e.target.value.length > 0) {
       self.state.cards[index].disabled = false;
@@ -22,15 +20,17 @@ export default class Item extends Component {
     self.props.setState({ cards: self.state.cards });
   }
 
-  handleClick(index, self, e) {
-    self.state.cards[index].items.unshift({
-      task: self.state.cards[index].input,
-      decoration: { textDecoration: "none" },
-      checked: false
-    });
-    self.state.cards[index].input = "";
-    self.state.cards[index].disabled = true;
-    self.setState({ cards: self.state.cards });
+  handleEnter(index, self, e) {
+    if (e.key === "Enter" && self.state.cards[index].input !== "") {
+      self.state.cards[index].items.unshift({
+        task: self.state.cards[index].input,
+        decoration: { textDecoration: "none" },
+        checked: false
+      });
+      self.state.cards[index].input = "";
+      self.state.cards[index].disabled = true;
+      self.setState({ cards: self.state.cards });
+    }
   }
 
   handleCheck(cardIndex, itemIndex, self, a) {
@@ -48,8 +48,6 @@ export default class Item extends Component {
   render() {
     let that = this;
     const { cardIndex, card } = this.props;
-    console.log("*******************");
-    console.log("*******************");
     return (
       <div>
         <TextField
@@ -58,14 +56,7 @@ export default class Item extends Component {
           style={{ margin: 10 }}
           floatingLabelText="Enter your task"
           onChange={that.handleChange.bind(this, cardIndex, that)}
-        />
-        <RaisedButton
-          backgroundColor="#1e93f1"
-          label="Add this"
-          labelColor="#fff"
-          disabled={card.disabled}
-          disabledBackgroundColor="#a4a4a4"
-          onClick={that.handleClick.bind(this, cardIndex, that)}
+          onKeyPress={that.handleEnter.bind(this, cardIndex, that)}
         />
         <ul>
           {card.items.map(function(item, j) {
