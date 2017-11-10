@@ -1,16 +1,14 @@
 import React, { Component } from "react";
 import ContentAdd from "material-ui/svg-icons/content/add";
+import ActionDelete from "material-ui/svg-icons/action/delete";
 import FloatingActionButton from "material-ui/FloatingActionButton";
 import TextField from "material-ui/TextField";
-import FlatButton from "material-ui/FlatButton";
 import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
-import {
-  Card,
-  CardActions,
-  CardHeader,
-  CardTitle,
-  CardText
-} from "material-ui/Card";
+import { Card, CardHeader, CardTitle, CardText } from "material-ui/Card";
+import IconMenu from "material-ui/IconMenu";
+import MenuItem from "material-ui/MenuItem";
+import IconButton from "material-ui/IconButton";
+import MoreVertIcon from "material-ui/svg-icons/navigation/more-vert";
 
 import Item from "./Item";
 
@@ -31,7 +29,7 @@ export default class Docket extends Component {
       disabled: true,
       input: "",
       items: [],
-      title: "Add Your Title"
+      title: "New Docket"
     });
     this.setState({ cards: this.state.cards });
   }
@@ -40,7 +38,10 @@ export default class Docket extends Component {
     delete self.state.cards[index];
     self.setState({ cards: self.state.cards });
   }
-
+  check(a, b) {
+    console.log("Hello World");
+    console.log(a, b.props.primaryText);
+  }
   render() {
     let that = this;
     return (
@@ -58,10 +59,34 @@ export default class Docket extends Component {
           </FloatingActionButton>
           {this.state.cards.map(function(card, i) {
             return (
-              <ul>
+              <ul key={i}>
                 {card !== undefined && (
                   <Card>
-                    <CardHeader title={`Docket #${i + 1}`} />
+                    <CardHeader
+                      title={`Docket #${i + 1}`}
+                      titleStyle={{ marginTop: 20 }}
+                    >
+                      <ActionDelete
+                        style={{ marginLeft: 70, cursor: "pointer" }}
+                        onClick={that.handleDelete.bind(this, i, that)}
+                      />
+                      <IconMenu
+                        iconButtonElement={
+                          <IconButton>
+                            <MoreVertIcon />
+                          </IconButton>
+                        }
+                        anchorOrigin={{ horizontal: "left", vertical: "top" }}
+                        targetOrigin={{ horizontal: "left", vertical: "top" }}
+                        onItemTouchTap={that.check.bind(this)}
+                      >
+                        <MenuItem primaryText="Refresh" />
+                        <MenuItem primaryText="Send feedback" />
+                        <MenuItem primaryText="Settings" />
+                        <MenuItem primaryText="Help" />
+                        <MenuItem primaryText="Sign out" />
+                      </IconMenu>
+                    </CardHeader>
                     <CardTitle>
                       <TextField
                         id="tasks"
@@ -87,12 +112,6 @@ export default class Docket extends Component {
                         setState={state => that.updateState(state)}
                       />
                     </CardText>
-                    <CardActions>
-                      <FlatButton
-                        label="Delete"
-                        onClick={that.handleDelete.bind(this, i, that)}
-                      />
-                    </CardActions>
                   </Card>
                 )}
               </ul>
