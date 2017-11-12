@@ -9,8 +9,41 @@ import IconMenu from "material-ui/IconMenu";
 import MenuItem from "material-ui/MenuItem";
 import IconButton from "material-ui/IconButton";
 import MoreVertIcon from "material-ui/svg-icons/navigation/more-vert";
+import { CirclePicker } from "react-color";
 
 import Item from "./Item";
+
+function formatDate(date) {
+  var d, hours, monthNames, mid;
+  d = new Date();
+  hours = d.getHours();
+  monthNames = [
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "May",
+    "Jun",
+    "Jul",
+    "Aug",
+    "Sep",
+    "Oct",
+    "Nov",
+    "Dec"
+  ];
+  mid = "AM";
+  if (hours == 12) {
+    //At 00 hours we need to show 12 am
+    mid = "PM";
+  } else if (hours > 12) {
+    hours = hours % 12;
+    mid = "PM";
+  }
+  return `${("0" + d.getDate()).slice(-2)} ${monthNames[
+    d.getMonth()
+  ]} ${d.getFullYear()} ${("0" + hours).slice(-2)}:${("0" + d.getMinutes()
+  ).slice(-2)} ${mid}`;
+}
 
 export default class Docket extends Component {
   constructor(props) {
@@ -29,7 +62,10 @@ export default class Docket extends Component {
       disabled: true,
       input: "",
       items: [],
-      title: "New Docket"
+      title: "New Docket",
+      circlePickerVisible: false,
+      backgroundColor: "white",
+      date: formatDate(new Date())
     });
     this.setState({ cards: this.state.cards });
   }
@@ -38,9 +74,16 @@ export default class Docket extends Component {
     delete self.state.cards[index];
     self.setState({ cards: self.state.cards });
   }
-  check(a, b) {
-    console.log("Hello World");
-    console.log(a, b.props.primaryText);
+  menuItemTouch(index, self, e, prop) {
+    self.state.cards[index].circlePickerVisible = true;
+    if (prop.props.primaryText === "Change Color") {
+      self.setState({ cards: self.state.cards });
+    }
+  }
+  handleChangeComplete(index, self, color) {
+    self.state.cards[index].backgroundColor = color.hex;
+    self.state.cards[index].circlePickerVisible = false;
+    self.setState({ cards: self.state.cards });
   }
   render() {
     let that = this;
@@ -61,9 +104,10 @@ export default class Docket extends Component {
             return (
               <ul key={i}>
                 {card !== undefined && (
-                  <Card>
+                  <Card style={{ backgroundColor: card.backgroundColor }}>
                     <CardHeader
                       title={`Docket #${i + 1}`}
+                      subtitle={card.date}
                       titleStyle={{ marginTop: 20 }}
                     >
                       <ActionDelete
@@ -78,16 +122,33 @@ export default class Docket extends Component {
                         }
                         anchorOrigin={{ horizontal: "left", vertical: "top" }}
                         targetOrigin={{ horizontal: "left", vertical: "top" }}
-                        onItemTouchTap={that.check.bind(this)}
+                        onItemTouchTap={that.menuItemTouch.bind(this, i, that)}
                       >
-                        <MenuItem primaryText="Refresh" />
-                        <MenuItem primaryText="Send feedback" />
-                        <MenuItem primaryText="Settings" />
-                        <MenuItem primaryText="Help" />
-                        <MenuItem primaryText="Sign out" />
+                        <MenuItem primaryText="Change Color" />
                       </IconMenu>
                     </CardHeader>
                     <CardTitle>
+                      {card.circlePickerVisible && (
+                        <div style={{ width: 244 }}>
+                          <CirclePicker
+                            colors={[
+                              "#F47373",
+                              "#697689",
+                              "#37D67A",
+                              "#555555",
+                              "#dce775",
+                              "#ff8a65",
+                              "#ba68c8",
+                              "#ffffff"
+                            ]}
+                            onChangeComplete={that.handleChangeComplete.bind(
+                              this,
+                              i,
+                              that
+                            )}
+                          />
+                        </div>
+                      )}
                       <TextField
                         id="tasks"
                         style={{ margin: 10 }}
