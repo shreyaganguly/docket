@@ -10,40 +10,9 @@ import MenuItem from "material-ui/MenuItem";
 import IconButton from "material-ui/IconButton";
 import MoreVertIcon from "material-ui/svg-icons/navigation/more-vert";
 import { CirclePicker } from "react-color";
-
+import "./styles.css";
 import Item from "./Item";
-
-function formatDate(date) {
-  var d, hours, monthNames, mid;
-  d = new Date();
-  hours = d.getHours();
-  monthNames = [
-    "Jan",
-    "Feb",
-    "Mar",
-    "Apr",
-    "May",
-    "Jun",
-    "Jul",
-    "Aug",
-    "Sep",
-    "Oct",
-    "Nov",
-    "Dec"
-  ];
-  mid = "AM";
-  if (hours == 12) {
-    //At 00 hours we need to show 12 am
-    mid = "PM";
-  } else if (hours > 12) {
-    hours = hours % 12;
-    mid = "PM";
-  }
-  return `${("0" + d.getDate()).slice(-2)} ${monthNames[
-    d.getMonth()
-  ]} ${d.getFullYear()} ${("0" + hours).slice(-2)}:${("0" + d.getMinutes()
-  ).slice(-2)} ${mid}`;
-}
+import Util from "./Util";
 
 export default class Docket extends Component {
   constructor(props) {
@@ -65,7 +34,8 @@ export default class Docket extends Component {
       title: "New Docket",
       circlePickerVisible: false,
       backgroundColor: "white",
-      date: formatDate(new Date())
+      date: Util.formatDate(new Date()),
+      timestamp: new Date().getTime()
     });
     this.setState({ cards: this.state.cards });
   }
@@ -89,7 +59,7 @@ export default class Docket extends Component {
     let that = this;
     return (
       <MuiThemeProvider>
-        <div>
+        <div className="container">
           <FloatingActionButton
             style={{
               position: "absolute",
@@ -100,84 +70,98 @@ export default class Docket extends Component {
           >
             <ContentAdd />
           </FloatingActionButton>
-          {this.state.cards.map(function(card, i) {
-            return (
-              <ul key={i}>
-                {card !== undefined && (
-                  <Card style={{ backgroundColor: card.backgroundColor }}>
-                    <CardHeader
-                      title={`Docket #${i + 1}`}
-                      subtitle={card.date}
-                      titleStyle={{ marginTop: 20 }}
+          <ul className="board">
+            {this.state.cards.map(function(card, i) {
+              return (
+                <div key={i} className="board__item">
+                  {card !== undefined && (
+                    <Card
+                      style={{
+                        backgroundColor: card.backgroundColor
+                      }}
                     >
-                      <ActionDelete
-                        style={{ marginLeft: 70, cursor: "pointer" }}
-                        onClick={that.handleDelete.bind(this, i, that)}
-                      />
-                      <IconMenu
-                        iconButtonElement={
-                          <IconButton>
-                            <MoreVertIcon />
-                          </IconButton>
-                        }
-                        anchorOrigin={{ horizontal: "left", vertical: "top" }}
-                        targetOrigin={{ horizontal: "left", vertical: "top" }}
-                        onItemTouchTap={that.menuItemTouch.bind(this, i, that)}
-                      >
-                        <MenuItem primaryText="Change Color" />
-                      </IconMenu>
-                    </CardHeader>
-                    <CardTitle>
-                      {card.circlePickerVisible && (
-                        <div style={{ width: 244 }}>
-                          <CirclePicker
-                            colors={[
-                              "#F47373",
-                              "#697689",
-                              "#37D67A",
-                              "#555555",
-                              "#dce775",
-                              "#ff8a65",
-                              "#ba68c8",
-                              "#ffffff"
-                            ]}
-                            onChangeComplete={that.handleChangeComplete.bind(
+                      <CardHeader subtitle={card.date}>
+                        <div>
+                          <TextField
+                            id="tasks"
+                            style={{ margin: 10 }}
+                            floatingLabelText="Task Title"
+                            defaultValue={card.title}
+                            floatingLabelFixed={true}
+                            floatingLabelStyle={{
+                              fontWeight: "bold",
+                              color: "black",
+                              fontSize: 20
+                            }}
+                            inputStyle={{
+                              color: "#7d42f4"
+                            }}
+                          />
+                          <ActionDelete
+                            style={{ cursor: "pointer" }}
+                            onClick={that.handleDelete.bind(this, i, that)}
+                          />
+                          <IconMenu
+                            iconButtonElement={
+                              <IconButton>
+                                <MoreVertIcon />
+                              </IconButton>
+                            }
+                            anchorOrigin={{
+                              horizontal: "left",
+                              vertical: "top"
+                            }}
+                            targetOrigin={{
+                              horizontal: "left",
+                              vertical: "top"
+                            }}
+                            onItemTouchTap={that.menuItemTouch.bind(
                               this,
                               i,
                               that
                             )}
-                          />
+                          >
+                            <MenuItem primaryText="Change Color" />
+                          </IconMenu>
                         </div>
-                      )}
-                      <TextField
-                        id="tasks"
-                        style={{ margin: 10 }}
-                        floatingLabelText="Task Title"
-                        defaultValue={card.title}
-                        floatingLabelFixed={true}
-                        floatingLabelStyle={{
-                          fontWeight: "bold",
-                          color: "black",
-                          fontSize: 20
-                        }}
-                        inputStyle={{
-                          color: "#7d42f4"
-                        }}
-                      />
-                    </CardTitle>
-                    <CardText>
-                      <Item
-                        cardIndex={i}
-                        card={card}
-                        state={that.state}
-                        setState={state => that.updateState(state)}
-                      />
-                    </CardText>
-                  </Card>
-                )}
-              </ul>
-            );
-          })}
+                      </CardHeader>
+                      <CardTitle>
+                        {card.circlePickerVisible && (
+                          <div style={{ width: 244 }}>
+                            <CirclePicker
+                              colors={[
+                                "#f47373",
+                                "#697689",
+                                "#37d67a",
+                                "#555555",
+                                "#dce775",
+                                "#ff8a65",
+                                "#ba68c8",
+                                "#ffffff"
+                              ]}
+                              onChangeComplete={that.handleChangeComplete.bind(
+                                this,
+                                i,
+                                that
+                              )}
+                            />
+                          </div>
+                        )}
+                      </CardTitle>
+                      <CardText>
+                        <Item
+                          cardIndex={i}
+                          card={card}
+                          state={that.state}
+                          setState={state => that.updateState(state)}
+                        />
+                      </CardText>
+                    </Card>
+                  )}
+                </div>
+              );
+            })}
+          </ul>
         </div>
       </MuiThemeProvider>
     );

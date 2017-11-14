@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import Checkbox from "material-ui/Checkbox";
 import TextField from "material-ui/TextField";
+import Util from "./Util";
 
 export default class Item extends Component {
   constructor(props) {
@@ -28,8 +29,11 @@ export default class Item extends Component {
         checked: false
       });
       self.state.cards[index].input = "";
+      self.state.cards[index].timestamp = new Date().getTime();
+      self.state.cards[index].date = Util.formatDate(new Date());
       self.state.cards[index].disabled = true;
-      self.setState({ cards: self.state.cards });
+      // self.state.cards.sort(Util.compare);
+      self.props.setState({ cards: self.state.cards });
     }
   }
 
@@ -42,7 +46,10 @@ export default class Item extends Component {
       item.checked = false;
       item.decoration = { textDecoration: "none" };
     }
-    self.setState({ cards: self.state.cards });
+    self.state.cards[cardIndex].timestamp = new Date().getTime();
+    self.state.cards[cardIndex].date = Util.formatDate(new Date());
+    // self.state.cards.sort(Util.compare);
+    self.props.setState({ cards: self.state.cards });
   }
 
   render() {
@@ -55,23 +62,23 @@ export default class Item extends Component {
           value={card.input}
           style={{ margin: 10 }}
           floatingLabelText="Enter your task"
+          autoFocus={true}
           onChange={that.handleChange.bind(this, cardIndex, that)}
           onKeyPress={that.handleEnter.bind(this, cardIndex, that)}
         />
-        <ul>
-          {card.items.map(function(item, j) {
-            return (
-              <div key={j}>
-                <Checkbox
-                  label={item.task}
-                  labelStyle={item.decoration}
-                  checked={item.checked}
-                  onCheck={that.handleCheck.bind(this, cardIndex, j, that)}
-                />
-              </div>
-            );
-          })}
-        </ul>
+        {card.items.map(function(item, j) {
+          return (
+            <div key={j}>
+              <Checkbox
+                style={{ marginLeft: 10 }}
+                label={item.task}
+                labelStyle={item.decoration}
+                checked={item.checked}
+                onCheck={that.handleCheck.bind(this, cardIndex, j, that)}
+              />
+            </div>
+          );
+        })}
       </div>
     );
   }
