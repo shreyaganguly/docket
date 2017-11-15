@@ -1,13 +1,12 @@
 import React, { Component } from "react";
-import ContentAdd from "material-ui/svg-icons/content/add";
 import ActionDelete from "material-ui/svg-icons/action/delete";
-import FloatingActionButton from "material-ui/FloatingActionButton";
 import TextField from "material-ui/TextField";
 import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
 import { Card, CardHeader, CardTitle, CardText } from "material-ui/Card";
 import IconMenu from "material-ui/IconMenu";
 import MenuItem from "material-ui/MenuItem";
 import IconButton from "material-ui/IconButton";
+import RaisedButton from "material-ui/RaisedButton";
 import MoreVertIcon from "material-ui/svg-icons/navigation/more-vert";
 import { CirclePicker } from "react-color";
 import "./styles.css";
@@ -41,7 +40,7 @@ export default class Docket extends Component {
   }
 
   handleDelete(index, self, a) {
-    delete self.state.cards[index];
+    self.state.cards.splice(index, 1);
     self.setState({ cards: self.state.cards });
   }
   menuItemTouch(index, self, e, prop) {
@@ -60,16 +59,30 @@ export default class Docket extends Component {
     return (
       <MuiThemeProvider>
         <div className="container">
-          <FloatingActionButton
-            style={{
-              position: "absolute",
-              top: 10,
-              left: 20
-            }}
-            onClick={this.handleAdd.bind(this)}
-          >
-            <ContentAdd />
-          </FloatingActionButton>
+          <div style={{ position: "fixed", top: 10, left: 20, zIndex: 10 }}>
+            <RaisedButton
+              backgroundColor="#1e93f1"
+              label="Add Notes as checklist"
+              labelColor="#fff"
+              disabledBackgroundColor="#a4a4a4"
+              style={{
+                margin: 10
+              }}
+              onClick={this.handleAdd.bind(this)}
+            />
+            <RaisedButton
+              backgroundColor="#1e93f1"
+              label="Add Notes as Image"
+              labelColor="#fff"
+              style={{
+                margin: 10
+              }}
+              disabledBackgroundColor="#a4a4a4"
+            />
+          </div>
+
+          {this.state.cards.length === 0 && <div className="loader" />}
+          <p className="heading">Your Dockets</p>
           <ul className="board">
             {this.state.cards.map(function(card, i) {
               return (
