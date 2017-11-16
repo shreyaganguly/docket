@@ -11,6 +11,7 @@ import MoreVertIcon from "material-ui/svg-icons/navigation/more-vert";
 import { CirclePicker } from "react-color";
 import "./styles.css";
 import Item from "./Item";
+import ImageUpload from "./ImageUpload";
 import Util from "./Util";
 
 export default class Docket extends Component {
@@ -25,12 +26,13 @@ export default class Docket extends Component {
     this.setState(state);
   }
 
-  handleAdd() {
+  handleAdd(type, e) {
     this.state.cards.unshift({
       disabled: true,
       input: "",
       items: [],
       title: "New Docket",
+      type: type,
       circlePickerVisible: false,
       backgroundColor: "white",
       date: Util.formatDate(new Date()),
@@ -68,7 +70,7 @@ export default class Docket extends Component {
               style={{
                 margin: 10
               }}
-              onClick={this.handleAdd.bind(this)}
+              onClick={this.handleAdd.bind(this, "text")}
             />
             <RaisedButton
               backgroundColor="#1e93f1"
@@ -78,11 +80,14 @@ export default class Docket extends Component {
                 margin: 10
               }}
               disabledBackgroundColor="#a4a4a4"
+              onClick={this.handleAdd.bind(this, "image")}
             />
           </div>
 
           {this.state.cards.length === 0 && <div className="loader" />}
-          <p className="heading">Your Dockets</p>
+          {this.state.cards.length !== 0 && (
+            <p className="heading">Your Dockets</p>
+          )}
           <ul className="board">
             {this.state.cards.map(function(card, i) {
               return (
@@ -162,12 +167,22 @@ export default class Docket extends Component {
                         )}
                       </CardTitle>
                       <CardText>
-                        <Item
-                          cardIndex={i}
-                          card={card}
-                          state={that.state}
-                          setState={state => that.updateState(state)}
-                        />
+                        {card.type === "text" && (
+                          <Item
+                            cardIndex={i}
+                            card={card}
+                            state={that.state}
+                            setState={state => that.updateState(state)}
+                          />
+                        )}
+                        {card.type === "image" && (
+                          <ImageUpload
+                            cardIndex={i}
+                            card={card}
+                            state={that.state}
+                            setState={state => that.updateState(state)}
+                          />
+                        )}
                       </CardText>
                     </Card>
                   )}

@@ -16,6 +16,18 @@
   padding: 0.5rem;
 }
 
+.boardImage {
+  display: flex;
+  flex-wrap: wrap;
+  margin-left: -1.5rem;
+  margin-right: -0.5rem;
+}
+
+.board__image {
+  flex: 0 0 450px;
+  padding: 0.5rem;
+}
+
 .heading {
   text-align: center;
 }
@@ -24,4 +36,28 @@
   width: 1000px;
   height: 600px;
   background: url("./nothing_found.gif") no-repeat center;
+}
+.fileInput {
+  border-bottom: 4px solid lightgray;
+  border-right: 4px solid lightgray;
+  border-top: 1px solid black;
+  border-left: 1px solid black;
+  padding: 10px;
+  margin: 15px;
+  cursor: pointer;
+}
+.imgpreview {
+  text-align: center;
+  margin: 5px 15px;
+  height: 200px;
+  width: 500px;
+  border-left: 1px solid gray;
+  border-right: 1px solid gray;
+  border-top: 5px solid gray;
+  border-bottom: 5px solid gray;
+}
+
+img {
+  width: 67%;
+  height: 100%;
 }
