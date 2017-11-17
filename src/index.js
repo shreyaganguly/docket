@@ -1,11 +1,12 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
-import Docket from "./Docket";
+// import Docket from "./Docket";
+import Audio from "./Audio";
 
 ReactDOM.render(
   <div>
-    <Docket />
+    <Audio />
   </div>,
   document.getElementById("container")
 );
