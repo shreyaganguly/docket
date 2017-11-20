@@ -1,9 +1,6 @@
 import React, { Component } from "react";
 import { CirclePicker } from "react-color";
 export default class DocketTitle extends Component {
-  constructor(props) {
-    super(props);
-  }
   handleChangeComplete(color) {
     this.props.state.cards[this.props.cardIndex].backgroundColor = color.hex;
     this.props.state.cards[this.props.cardIndex].circlePickerVisible = false;

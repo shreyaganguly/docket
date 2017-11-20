@@ -3,9 +3,6 @@ import RaisedButton from "material-ui/RaisedButton";
 import Util from "./Util";
 
 export default class DocketButtons extends Component {
-  constructor(props) {
-    super(props);
-  }
   handleAdd(type, e) {
     this.props.state.cards.unshift({
       disabled: true,

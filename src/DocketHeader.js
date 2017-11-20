@@ -7,10 +7,6 @@ import MoreVertIcon from "material-ui/svg-icons/navigation/more-vert";
 import IconButton from "material-ui/IconButton";
 
 export default class DocketHeader extends Component {
-  constructor(props) {
-    super(props);
-  }
-
   handleDelete(a) {
     this.props.state.cards.splice(this.props.cardIndex, 1);
     this.props.setState({ cards: this.props.state.cards });

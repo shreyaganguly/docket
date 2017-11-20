@@ -1,6 +1,5 @@
 import React from "react";
 import FlatButton from "material-ui/FlatButton";
-import RaisedButton from "material-ui/RaisedButton";
 import "./styles.css";
 export default class Image extends React.Component {
   constructor(props) {
@@ -8,7 +7,7 @@ export default class Image extends React.Component {
     this.state = { file: "", imagePreviewUrl: "", imagePreviews: [] };
   }
 
-  _handleImageChange(e) {
+  handleImageChange(e) {
     e.preventDefault();
 
     let reader = new FileReader();
@@ -33,7 +32,7 @@ export default class Image extends React.Component {
           containerElement="label"
           label="Choose FILES"
           labelPosition="before"
-          onChange={e => this._handleImageChange(e)}
+          onChange={e => this.handleImageChange(e)}
         >
           <input type="file" />
         </FlatButton>
@@ -42,7 +41,7 @@ export default class Image extends React.Component {
             {this.props.card.items.map((imagePreview, i) => {
               return (
                 <div key={i} className="board__image">
-                  <img src={imagePreview} />
+                  <img alt="" src={imagePreview} />
                 </div>
               );
             })}

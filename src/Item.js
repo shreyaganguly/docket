@@ -4,9 +4,6 @@ import Image from "./Image";
 import Audio from "./Audio";
 
 export default class Item extends Component {
-  constructor(props) {
-    super(props);
-  }
   render() {
     const { card } = this.props;
     return (
