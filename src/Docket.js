@@ -12,6 +12,7 @@ import { CirclePicker } from "react-color";
 import "./styles.css";
 import Item from "./Item";
 import ImageUpload from "./ImageUpload";
+import Audio from "./Audio";
 import Util from "./Util";
 
 export default class Docket extends Component {
@@ -81,6 +82,16 @@ export default class Docket extends Component {
               }}
               disabledBackgroundColor="#a4a4a4"
               onClick={this.handleAdd.bind(this, "image")}
+            />
+            <RaisedButton
+              backgroundColor="#1e93f1"
+              label="Add Notes as Audio"
+              labelColor="#fff"
+              style={{
+                margin: 10
+              }}
+              disabledBackgroundColor="#a4a4a4"
+              onClick={this.handleAdd.bind(this, "audio")}
             />
           </div>
 
@@ -177,6 +188,14 @@ export default class Docket extends Component {
                         )}
                         {card.type === "image" && (
                           <ImageUpload
+                            cardIndex={i}
+                            card={card}
+                            state={that.state}
+                            setState={state => that.updateState(state)}
+                          />
+                        )}
+                        {card.type === "audio" && (
+                          <Audio
                             cardIndex={i}
                             card={card}
                             state={that.state}
