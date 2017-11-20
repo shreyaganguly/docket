@@ -2,7 +2,7 @@ import React from "react";
 import FlatButton from "material-ui/FlatButton";
 import RaisedButton from "material-ui/RaisedButton";
 import "./styles.css";
-export default class ImageUpload extends React.Component {
+export default class Image extends React.Component {
   constructor(props) {
     super(props);
     this.state = { file: "", imagePreviewUrl: "", imagePreviews: [] };

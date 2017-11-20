@@ -6,7 +6,7 @@ import "./styles.css";
 import MicrophoneOn from "material-ui/svg-icons/av/mic";
 import MicrophoneOff from "material-ui/svg-icons/av/stop";
 
-export default class Audio extends React.Component {
+export default class Audio extends Component {
   constructor(props) {
     super(props);
     this.state = {
