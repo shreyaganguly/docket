@@ -1,7 +1,7 @@
-## Docket
+## docket
 
-Ever wondered of organising your everyday tasks in a Docket?
-Or you have planned for sudden camping with your friends and want to keep a checklist of what stuffs to carry on the fly in your machine. To address all these problems `Docket` is a one stop solution.
+Ever wondered of organising your everyday tasks in a docket?
+Or you have planned for sudden camping with your friends and want to keep a checklist of what stuffs to carry on the fly in your machine. To address all these problems `docket` is a one stop solution.
 
 ### Features
   - Add multiple dockets, customise its title, change its background color, delete it anytime
@@ -11,7 +11,7 @@ Or you have planned for sudden camping with your friends and want to keep a chec
 
 ### Demo
 
-Checkout the live demo of Docket [here](https://shreyaganguly.github.io/docket/)
+Checkout the live demo of docket [here](https://shreyaganguly.github.io/docket/)
 
 ### Run
 
